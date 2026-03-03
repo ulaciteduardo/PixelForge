@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PixelForge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="../static/img/Logo small.png" type="image/png">
+</head>
+
+<body class="pf-layout">
+
+    <header class="pf-brand">
+        <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="PixelForge">
+    </header>
+
+
+    <nav class="pf-navbar">
+        <div class="pf-navbar-inner">
+
+            <!-- Siempre visible -->
+            <a href="{{ url_for('index') }}">Inicio</a>
+
+            {% if current_user.is_authenticated %}
+            <!-- Usuario LOGUEADO -->
+            <a href="{{ url_for('profile') }}">Perfil</a>
+            <a href="{{ url_for('logout') }}">Salir</a>
+            {% else %}
+            <!-- Usuario NO logueado -->
+            <a href="{{ url_for('login') }}">Iniciar sesión</a>
+            <a href="{{ url_for('register') }}">Registrarse</a>
+            {% endif %}
+
+        </div>
+    </nav>
+
+
+    <!-- CONTENIDO -->
+    <main class="pf-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="pf-footer">
+        © {{ now().year }} PixelForge Inc.
+    </footer>
+    <script> const navbar = document.querySelector('.pf-navbar'); window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 10); }); </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="auth-card">
+  <h2>Crear cuenta</h2>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST">
+    <input
+      type="text"
+      name="username"
+      placeholder="Nombre de usuario"
+      required
+    >
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Correo electrónico"
+      required
+    >
+
+    <input
+      type="password"
+      name="password"
+      placeholder="Contraseña"
+      required
+    >
+
+    <!-- Fecha de nacimiento -->
+    <div class="date-group">
+      <label for="fecha_nacimiento" class="form-label">
+        Fecha de nacimiento
+      </label>
+
+      <input
+        type="date"
+        id="fecha_nacimiento"
+        name="fecha_nacimiento"
+        class="date-input"
+        required
+      >
+    </div>
+
+    <button type="submit" class="auth-btn">
+      Registrarse
+    </button>
+  </form>
+
+  <p class="auth-footer">
+    ¿Ya tienes cuenta?
+    <a href="{{ url_for('login') }}">Inicia sesión</a>
+  </p>
+</section>
+
+{% endblock %}

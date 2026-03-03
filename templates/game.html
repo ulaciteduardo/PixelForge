@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if game %}
+
+  <!-- Imagen del juego -->
+{% if game.background_image %}
+  <div class="game-image-wrapper">
+    <img
+      src="{{ game.background_image }}"
+      alt="{{ game.name }}"
+      class="game-image"
+    >
+  </div>
+{% endif %}
+
+  <!-- Título -->
+  <h2 class="game-title">{{ game.name }}</h2>
+
+  <!-- Reseña del usuario -->
+  {% if user_review %}
+  <section class="user-review">
+    <h3>Tu reseña</h3>
+
+    <div class="review-card highlight">
+      <div class="review-header">
+        <strong>{{ current_user.username }}</strong>
+        <span class="review-stars">
+          {{ "★" * user_review.rating }}{{ "☆" * (5 - user_review.rating) }}
+        </span>
+      </div>
+
+      <p class="review-text">
+        {{ user_review.comment }}
+      </p>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Formulario de reseña -->
+  {% if not user_review %}
+  <section class="review-form">
+    <h3>Publicar reseña</h3>
+
+    <form method="POST">
+      <div class="star-rating">
+        {% for i in range(5, 0, -1) %}
+          <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required>
+          <label for="star{{ i }}">★</label>
+        {% endfor %}
+      </div>
+
+      <textarea
+        name="comment"
+        placeholder="¿Qué te pareció el juego?"
+        required
+      ></textarea>
+
+      <button type="submit" class="review-btn">
+        Publicar reseña
+      </button>
+    </form>
+  </section>
+  {% endif %}
+
+  <!-- Reseñas de la comunidad -->
+  <section class="reviews-list">
+    <h3>Reseñas de la comunidad</h3>
+
+    {% for review in reviews %}
+      <div class="review-card">
+        <div class="review-header">
+          <strong>{{ review.user.username }}</strong>
+          <span class="review-stars">
+            {{ "★" * review.rating }}{{ "☆" * (5 - review.rating) }}
+          </span>
+        </div>
+
+        <p class="review-text">
+          {{ review.comment }}
+        </p>
+      </div>
+    {% else %}
+      <p class="empty-reviews">
+        Todavía no hay reseñas para este juego.
+      </p>
+    {% endfor %}
+  </section>
+
+{% else %}
+  <p>No se pudo cargar el juego.</p>
+{% endif %}
+
+{% endblock %}

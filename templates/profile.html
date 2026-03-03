@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="profile-hero">
+    <div class="profile-avatar">
+        <span>{{ current_user.username[0]|upper }}</span>
+    </div>
+
+    <div class="profile-info">
+        <h2>{{ current_user.username }}</h2>
+        <div class="profile-bio">
+
+            {% if request.args.get("edit") == "bio" %}
+            <form method="POST" action="{{ url_for('edit_biography') }}">
+                <textarea name="biografia" class="bio-textarea"
+                    maxlength="280">{{ current_user.biografia or "Sin biografía" }}</textarea>
+
+                <div class="bio-actions">
+                    <button type="submit" class="bio-save">Guardar</button>
+                    <a href="{{ url_for('profile') }}" class="bio-cancel">Cancelar</a>
+                </div>
+            </form>
+            {% else %}
+            <p class="profile-tagline">
+                {{ current_user.biografia or "Sin biografía" }}
+            </p>
+
+            <a href="{{ url_for('profile', edit='bio') }}" class="bio-edit">
+                Editar biografía
+            </a>
+            {% endif %}
+
+        </div>
+
+
+        <div class="profile-stats">
+            <div class="stat">
+                <strong>{{ reviews|length }}</strong>
+                <span>Reseñas</span>
+            </div>
+
+            <div class="stat">
+                <strong>
+                    {% if reviews %}
+                    {{ (reviews | map(attribute='rating') | sum / reviews|length) | round(1) }}
+                    {% else %}
+                    0
+                    {% endif %}
+                </strong>
+                <span>Rating promedio</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reseñas -->
+<section class="profile-reviews">
+    <h3>Mis reseñas</h3>
+
+    {% if reviews %}
+    <div class="profile-reviews-list">
+        {% for r in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <strong>{{ r.game_name }}</strong>
+                <span class="review-stars">
+                    {{ "★" * r.rating }}{{ "☆" * (5 - r.rating) }}
+                </span>
+            </div>
+
+            <p class="review-text">
+                {{ r.comment }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-reviews">
+        Todavía no has escrito ninguna reseña 🎮
+    </p>
+    {% endif %}
+</section>
+
+{% endblock %}
