@@ -51,4 +51,4 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t pixelforge-app 
+          docker build -t pixelforge-app .
