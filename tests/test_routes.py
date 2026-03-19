@@ -75,21 +75,4 @@ def test_profile_after_login(client):
 
 
 
-    def test_create_review(client, monkeypatch):
 
-        def fake_rawg_get(url):
-            return {"name": "Test Game"}
-
-        monkeypatch.setattr("main.rawg_get", fake_rawg_get)
-
-        client.post("/login", data={
-            "username": "testuser",
-            "password": "1234"
-        })
-
-        response = client.post("/game/1", data={
-            "rating": "5",
-            "comment": "Excelente"
-        }, follow_redirects=True)
-
-        assert response.status_code == 200
