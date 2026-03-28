@@ -64,7 +64,7 @@ jobs:
           path: pixelforge-app.tar
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.24.0
         with:
           image-ref: 'pixelforge-app'
           format: 'table'
