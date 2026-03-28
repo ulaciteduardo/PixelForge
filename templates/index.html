@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>¿Qué jugaste hoy?</h2>
+<h2>¿Qué jugaste hoy prueba deploy?</h2>
 <div class="games-grid">
   {% for game in games %}
     <a href="{{ url_for('game', game_id=game.id) }}" class="rawg-card">
